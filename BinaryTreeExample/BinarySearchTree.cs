@@ -4,45 +4,55 @@ using System.Text;
 
 namespace BinaryTreeExample
 {
-    class BinarySearchTree
+    class BinarySearchTree<T> where T : IComparable<T>
     {
-        public Node Root { get; set; }
+        public T Root { get; set; }
+        public BinarySearchTree<T> LeftTree { get; set; }
+        public BinarySearchTree<T> RightTree { get; set; }
 
-        public bool Add(int value)
+        public BinarySearchTree(T nodeData)
         {
-            Node before = null, after = this.Root;
-            while(after != null)
+            this.Root = nodeData;
+            this.RightTree = null;
+            this.LeftTree = null;
+        }
+
+        int leftCount = 0, rightCount = 0;
+        
+        public void Add(T item)
+        {
+            T currentNodeValue = this.Root;
+            if ((currentNodeValue.CompareTo(item)) > 0)
             {
-                before = after;
-                if (value < after.Data)
-                {
-                    after = after.LeftNode;
-                }
-                else if (value > after.Data)
-                {
-                    after = after.RightNode;
-                }
-                return false;
-                
-            }
-            Node newNode = new Node();
-            newNode.Data = value;
-            if(this.Root == null)
-            {
-                this.Root = newNode;
+                Console.WriteLine((currentNodeValue.CompareTo(item)));
+                if (this.LeftTree == null)
+                    this.LeftTree = new BinarySearchTree<T>(item);
+                else
+                    this.LeftTree.Add(item);
             }
             else
             {
-                if(value<before.Data)
-                {
-                    before.LeftNode = newNode;
-                }
+                if (this.RightTree == null)
+                    this.RightTree = new BinarySearchTree<T>(item);
                 else
-                {
-                    before.RightNode = newNode;
-                }
+                    this.RightTree.Add(item);
             }
-            return true;
+
+        }
+
+        public void Display()
+        {
+            if(this.LeftTree != null)
+            {
+                this.leftCount++;
+                this.LeftTree.Display();
+            }
+            Console.WriteLine(this.Root.ToString());
+            if(this.RightTree != null)
+            {
+                this.rightCount++;
+                this.RightTree.Display();
+            }
         }
     }
 }
