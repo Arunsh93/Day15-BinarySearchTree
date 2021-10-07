@@ -6,22 +6,23 @@ namespace BinaryTreeExample
 {
     class BinarySearchTree<T> where T : IComparable<T>
     {
-        public T Root { get; set; }
+        public T NodeData { get; set; }
         public BinarySearchTree<T> LeftTree { get; set; }
         public BinarySearchTree<T> RightTree { get; set; }
 
         public BinarySearchTree(T nodeData)
         {
-            this.Root = nodeData;
+            this.NodeData = nodeData;
             this.RightTree = null;
             this.LeftTree = null;
         }
 
         int leftCount = 0, rightCount = 0;
+        bool result = false;
         
         public void Add(T item)
         {
-            T currentNodeValue = this.Root;
+            T currentNodeValue = this.NodeData;
             if ((currentNodeValue.CompareTo(item)) > 0)
             {
                 Console.WriteLine((currentNodeValue.CompareTo(item)));
@@ -47,12 +48,34 @@ namespace BinaryTreeExample
                 this.leftCount++;
                 this.LeftTree.Display();
             }
-            Console.WriteLine(this.Root.ToString());
+            Console.WriteLine(this.NodeData.ToString());
             if(this.RightTree != null)
             {
                 this.rightCount++;
                 this.RightTree.Display();
             }
+        }
+
+        public bool Search(T searchData, BinarySearchTree<T> node)
+        {
+            if(node == null)
+            {
+                return false;
+            }
+            if(node.NodeData.Equals(searchData))
+            {
+                return true;
+            }
+            else if(searchData.CompareTo(node.NodeData) < 0)
+            {
+                Search(searchData, node.LeftTree);
+            }
+            else if(searchData.CompareTo(node.NodeData) > 0)
+            {
+                Search(searchData, node.RightTree);
+            }
+            return result;
+
         }
 
         //get the size of the tree
