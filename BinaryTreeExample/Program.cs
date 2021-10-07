@@ -13,6 +13,8 @@ namespace BinaryTreeExample
             binaryTree.Add(70);
             binaryTree.Display();
 
+            binaryTree.TreeSize();
+
         /*    binaryTree.Add(1);
             binaryTree.Add(2);
             binaryTree.Add(7);
